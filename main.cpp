@@ -1,6 +1,11 @@
 #include <iostream>
+#include "Headers/WaterSupply.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    WaterSupply waterSupply;
+
+    //True for SmallSet, False for LargeSet
+    waterSupply.readSet(true);
+
     return 0;
 }
