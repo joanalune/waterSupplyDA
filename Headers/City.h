@@ -2,6 +2,8 @@
 #define WATERSUPPLYDA_CITY_H
 
 #include <string>
+#include "Graph.h"
+
 using namespace std;
 
 class City {
@@ -9,6 +11,7 @@ private:
     string cityName,  cityCode, cityPopulation;
     int cityId;
     double cityDemand;
+    Vertex<string>* location;
 public:
     City(string cityName, string cityCode, string cityPopulation, int cityId, double cityDemand);
     void setName(string name);

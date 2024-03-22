@@ -42,7 +42,7 @@ void WaterSupply::readCityCsv(const string& path) {
 
         City tempCity(city, code, population, intId, doubleDemand);
         waterSupply.addVertex(code);
-        cityMap[code] = new City(tempCity);
+        cityMap.insert({code, tempCity});
     }
 }
 
@@ -95,7 +95,7 @@ void WaterSupply::readReservoirsCsv(const std::string &path) {
 
         Reservoir tempReservoir(name, code, municipality, intId, doubleDelivery);
         waterSupply.addVertex(code);
-        reservoirMap[code] = new Reservoir(tempReservoir);
+        reservoirMap.insert({code, tempReservoir});
     }
 }
 
@@ -129,14 +129,15 @@ void WaterSupply::readPipesCsv(const std::string &path) {
     }
 }
 
-unordered_map<string, City *> WaterSupply::getCities() {
+unordered_map<string, City> WaterSupply::getCities() {
     return cityMap;
 }
 
-unordered_map<string, Reservoir *> WaterSupply::getReservoirs() {
+unordered_map<string, Reservoir> WaterSupply::getReservoirs() {
     return reservoirMap;
 }
 
+/*
 WaterSupply::~WaterSupply() {
     for (const auto& city : cityMap) {
         delete city.second;
@@ -146,6 +147,7 @@ WaterSupply::~WaterSupply() {
         delete reservoir.second;
     }
 }
+*/
 
 Graph<string> WaterSupply::getGraph() {
     return waterSupply;

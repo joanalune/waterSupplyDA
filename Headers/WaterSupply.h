@@ -11,19 +11,23 @@ using namespace std;
 class WaterSupply {
 private:
     Graph<string> waterSupply;
-    unordered_map<string, City *> cityMap;
-    unordered_map<string, Reservoir*> reservoirMap;
+    unordered_map<string, City> cityMap;
+    unordered_map<string, Reservoir> reservoirMap;
 public:
     WaterSupply() = default;
-    ~WaterSupply();
+    //~WaterSupply();
+
+    //file reading
     void readSet(bool smallSet);
     void readCityCsv(const string& path);
     void readPipesCsv(const string& path);
     void readReservoirsCsv(const string& path);
     void readStationsCsv(const string& path);
-    unordered_map<string, City *> getCities();
-    unordered_map<string, Reservoir*> getReservoirs();
+
+    unordered_map<string, City> getCities();
+    unordered_map<string, Reservoir> getReservoirs();
     Graph<string> getGraph();
+
 };
 
 

@@ -28,15 +28,15 @@ void Reservoir::setDelivery(double delivery) {
     reservoirDelivery = delivery;
 }
 
-std::string Reservoir::getName() {
+string Reservoir::getName() const{
     return reservoirName;
 }
 
-std::string Reservoir::getCode() {
+string Reservoir::getCode() const{
     return reservoirCode;
 }
 
-std::string Reservoir::getMunicipality() {
+string Reservoir::getMunicipality() const{
     return reservoirMunicipality;
 }
 
@@ -46,4 +46,8 @@ int Reservoir::getId() const {
 
 double Reservoir::getDelivery() const {
     return reservoirDelivery;
+}
+
+Vertex<string>* Reservoir::getLocation() const {
+    return location;
 }
