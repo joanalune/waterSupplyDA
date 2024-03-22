@@ -44,7 +44,7 @@ void Menu::printServiceMetricsMenu(){
     cout    << "6. Exit" << endl;
 }
 
-void Menu::printReliabilityMetricsMenu(){
+void Menu::printReliabilityFailureMenu(){
     cout << endl;
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << "     Water Supply Network Analysis      " << endl;

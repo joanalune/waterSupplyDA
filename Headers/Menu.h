@@ -11,7 +11,7 @@ class Menu {
     void printDataChoiceMenu();
     void printMainMenu();
     void printServiceMetricsMenu();
-    void printReliabilityMetricsMenu();
+    void printReliabilityFailureMenu();
 };
 
 
