@@ -9,4 +9,5 @@ add_executable(waterSupplyDA main.cpp
         Headers/City.h
         Sources/City.cpp
         Headers/Reservoir.h
-        Sources/Reservoir.cpp)
+        Sources/Reservoir.cpp
+        Sources/Menu.cpp)
