@@ -6,6 +6,9 @@
 #include "Reservoir.h"
 #include <string>
 #include <unordered_map>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 using namespace std;
 
 class WaterSupply {

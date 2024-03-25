@@ -1,6 +1,3 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
 #include "../Headers/WaterSupply.h"
 
 void WaterSupply::readSet(bool smallSet) {

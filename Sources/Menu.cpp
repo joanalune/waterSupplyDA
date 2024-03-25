@@ -113,6 +113,7 @@ void Menu::runMainMenu(){
                 runDataChoiceMenu();
                 return;
             case 4:
+                cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<< endl;
                 return;
             default:
                 cout << "Invalid Input" << endl;
@@ -136,17 +137,21 @@ void Menu::runServiceMetricsMenu(){
                 //ask which city
                 //display max amount of water
                 waitForInput();
+                break;
             case 2:
                 //display networks ability to satisfy costumers
                 waitForInput();
+                break;
             case 3:
                 //ask which city
                 //display crucial pipes
                 waitForInput();
+                break;
             case 4:
                 runMainMenu();
                 return;
             case 5:
+                cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<< endl;
                 return;
             default:
                 cout << "Invalid Input" << endl;
@@ -168,18 +173,22 @@ void Menu::runReliabilityFailureMenu(){
                 //ask which water reservoirs
                 //simulate removal
                 waitForInput();
+                break;
             case 2:
                 //ask which pumping stations
                 //simulate removal
                 waitForInput();
+                break;
             case 3:
                 //ask which city
                 //show
                 waitForInput();
+                break;
             case 4:
                 runMainMenu();
                 return;
             case 5:
+                cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<< endl;
                 return;
 
         }
