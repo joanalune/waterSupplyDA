@@ -1,5 +1,14 @@
 #include "../Headers/Menu.h"
 
+Menu::Menu(WaterSupply *w) {
+    waterSupply = w;
+}
+
+void Menu::waitForInput() const {
+    cout << "Input any value to continue" << endl;
+    string input;
+    getline(cin >> input, input);
+}
 
 void Menu::printDataChoiceMenu(){
     cout << endl;
@@ -38,10 +47,9 @@ void Menu::printServiceMetricsMenu(){
     cout    << "What would you like to do?" << endl;
     cout    << "1. Consult maximum amount of water that can reach a city"<< endl;
     cout    << "2. Consult the networks' ability to provide water to all its customers" << endl;
-    cout    << "3. Balance the load across the network" << endl; //greedy strategy, may not be possible to implement
-    cout    << "4. Check the network's resilience" << endl; //go to reliabilty and failure menu
-    cout    << "5. Return to main menu" << endl;
-    cout    << "6. Exit" << endl;
+    cout    << "3. Balance the load across the network" << endl; //greedy strategy, no need to implement, prepare for presentation
+    cout    << "4. Return to main menu" << endl;
+    cout    << "5. Exit" << endl;
 }
 
 void Menu::printReliabilityFailureMenu(){
@@ -58,4 +66,124 @@ void Menu::printReliabilityFailureMenu(){
     cout    << "4. Return to main menu" << endl;
     cout    << "5. Exit" << endl;
 }
+
+void Menu::runDataChoiceMenu(){
+
+    while(true){
+        system("clear");
+        printDataChoiceMenu();
+
+        int option;
+        cin >> option;
+
+        switch(option){
+            case 1:
+                waterSupply->readSet(true);
+                runMainMenu();
+                return;
+            case 2:
+                waterSupply->readSet(false);
+                runMainMenu();
+                return;
+            case 3:
+                cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<<endl;
+                return;
+            default:
+                cout << "Invalid Input" << endl;
+        }
+    }
+}
+
+void Menu::runMainMenu(){
+    while(true){
+        system("clear");
+        printMainMenu();
+
+        int option;
+        cin >> option;
+
+        switch(option){
+            case 1:
+                runServiceMetricsMenu();
+                return;
+            case 2:
+                runReliabilityFailureMenu();
+                return;
+            case 3:
+                runDataChoiceMenu();
+                return;
+            case 4:
+                return;
+            default:
+                cout << "Invalid Input" << endl;
+
+        }
+    }
+
+}
+
+
+void Menu::runServiceMetricsMenu(){
+    while(true){
+        system("clear");
+        printServiceMetricsMenu();
+
+        int option;
+        cin >> option;
+
+        switch(option){
+            case 1:
+                //ask which city
+                //display max amount of water
+                waitForInput();
+            case 2:
+                //display networks ability to satisfy costumers
+                waitForInput();
+            case 3:
+                //ask which city
+                //display crucial pipes
+                waitForInput();
+            case 4:
+                runMainMenu();
+                return;
+            case 5:
+                return;
+            default:
+                cout << "Invalid Input" << endl;
+
+        }
+    }
+}
+
+void Menu::runReliabilityFailureMenu(){
+    while (true){
+        system("clear");
+        printReliabilityFailureMenu();
+
+        int option;
+        cin >> option;
+
+        switch(option){
+            case 1:
+                //ask which water reservoirs
+                //simulate removal
+                waitForInput();
+            case 2:
+                //ask which pumping stations
+                //simulate removal
+                waitForInput();
+            case 3:
+                //ask which city
+                //show
+                waitForInput();
+            case 4:
+                runMainMenu();
+                return;
+            case 5:
+                return;
+
+        }
+    }
+}
+
 
