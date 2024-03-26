@@ -19,9 +19,9 @@ public:
     void setPopulation(string population);
     void setId(int id);
     void setDemand(double demand);
-    string getName();
-    string getCode();
-    string getPopulation();
+    string getName() const;
+    string getCode() const;
+    string getPopulation() const;
     int getId() const;
     double getDemand() const;
 };

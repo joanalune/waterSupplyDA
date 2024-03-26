@@ -149,3 +149,16 @@ WaterSupply::~WaterSupply() {
 Graph<string> WaterSupply::getGraph() {
     return waterSupply;
 }
+
+bool WaterSupply::addCity(const City &city) {
+    cityMap.insert({city.getCode(), city});
+    return false;
+}
+
+bool WaterSupply::addReservoir(const Reservoir &reservoir) {
+    return false;
+}
+
+bool WaterSupply::addPipe(const Edge<string> *pipe) {
+    return false;
+}

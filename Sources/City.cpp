@@ -28,15 +28,15 @@ void City::setDemand(double demand) {
     cityDemand = demand;
 }
 
-std::string City::getName() {
+std::string City::getName() const{
     return cityName;
 }
 
-std::string City::getCode() {
+std::string City::getCode() const{
     return cityCode;
 }
 
-std::string City::getPopulation() {
+std::string City::getPopulation() const{
     return cityPopulation;
 }
 
