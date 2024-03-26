@@ -1,5 +1,4 @@
 #include "../Headers/City.h"
-#include <string>
 
 City::City(std::string cityName, std::string cityCode, std::string cityPopulation, int cityId, double cityDemand) {
     this->cityName = cityName;
