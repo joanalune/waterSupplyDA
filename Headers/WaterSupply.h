@@ -28,6 +28,10 @@ public:
     unordered_map<string, Reservoir> getReservoirs();
     Graph<string> getGraph();
 
+    bool addCity(const City& city);
+    bool addReservoir(const Reservoir& reservoir);
+    bool addPipe(const Edge<string>* pipe);
+
 };
 
 
