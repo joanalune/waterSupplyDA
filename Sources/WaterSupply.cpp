@@ -152,6 +152,7 @@ Graph<string> WaterSupply::getGraph() {
 
 bool WaterSupply::addCity(const City &city) {
     cityMap.insert({city.getCode(), city});
+
     return false;
 }
 

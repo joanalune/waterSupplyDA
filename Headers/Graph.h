@@ -20,6 +20,7 @@ class Edge;
 template <class T>
 class Vertex {
 public:
+
     Vertex(T in);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
@@ -96,6 +97,8 @@ protected:
 template <class T>
 class Graph {
 public:
+
+    //default
     ~Graph();
     /*
     * Auxiliary function to find a vertex with a given the content.
@@ -128,6 +131,11 @@ public:
     bool isDAG() const;
     bool dfsIsDAG(Vertex<T> *v) const;
     std::vector<T> topsort() const;
+
+    //added
+    Vertex<T>* pushVertex(const T &in); //adds a vertex to the vertex set and returns a pointer to it;
+
+
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
@@ -339,6 +347,12 @@ void Edge<T>::setFlow(double flow) {
 }
 
 /********************** Graph  ****************************/
+
+template <class T>
+Vertex<T>* Graph<T>::pushVertex(const T &in) {
+    vertexSet.push_back(Vertex<T>(in));
+    return vertexSet.back();
+}
 
 template <class T>
 int Graph<T>::getNumVertex() const {
