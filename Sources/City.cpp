@@ -28,6 +28,8 @@ void City::setDemand(double demand) {
     cityDemand = demand;
 }
 
+
+
 std::string City::getName() const{
     return cityName;
 }
@@ -47,3 +49,5 @@ int City::getId() const {
 double City::getDemand() const {
     return cityDemand;
 }
+
+

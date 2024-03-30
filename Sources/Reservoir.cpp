@@ -48,6 +48,3 @@ double Reservoir::getDelivery() const {
     return reservoirDelivery;
 }
 
-Vertex<string>* Reservoir::getLocation() const {
-    return location;
-}

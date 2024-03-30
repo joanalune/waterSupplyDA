@@ -133,7 +133,7 @@ public:
     std::vector<T> topsort() const;
 
     //added
-    Vertex<T>* pushVertex(const T &in); //adds a vertex to the vertex set and returns a pointer to it;
+    Vertex<T>* pushVertex(const T &in); //adds a vertex to the vertex set and returns a pointer to it
 
 
 protected:
@@ -350,8 +350,9 @@ void Edge<T>::setFlow(double flow) {
 
 template <class T>
 Vertex<T>* Graph<T>::pushVertex(const T &in) {
-    vertexSet.push_back(Vertex<T>(in));
-    return vertexSet.back();
+    Vertex<T>* ptr = new Vertex<T>(in);
+    vertexSet.push_back(ptr);
+    return ptr;
 }
 
 template <class T>

@@ -79,6 +79,19 @@ void Menu::runDataChoiceMenu(){
         switch(option){
             case 1:
                 waterSupply->readSet(true);
+
+                for (auto cityIdCity : waterSupply->getCities()) {
+                    cout << cityIdCity.second.getName() << '\n';
+                }
+                cout << '\n';
+                for (auto reservoirIdReservoir : waterSupply->getReservoirs()) {
+                    cout << reservoirIdReservoir.second.getName() << '\n';
+                }
+                cout << '\n';
+                for (auto location : waterSupply->getLocations()) {
+                    cout << location.second->getInfo() << '\n';
+                }
+
                 runMainMenu();
                 return;
             case 2:
