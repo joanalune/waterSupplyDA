@@ -39,10 +39,8 @@ void WaterSupply::readCityCsv(const string& path) {
 
         City tempCity(city, code, population, intId, doubleDemand);
 
-        //waterSupply.addVertex(code);
-        //cityMap.insert({code, tempCity});
-
-        addCity(tempCity);
+        waterSupply.addVertex(code);
+        cityMap.insert({code, tempCity});
     }
 }
 
@@ -64,11 +62,9 @@ void WaterSupply::readStationsCsv(const std::string &path) {
         getline(iss, code, ',');
 
         //int intId = stoi(id);
-
         //Criar unordered_map?
-        //waterSupply.addVertex(code);
+        waterSupply.addVertex(code);
 
-        addStation(code);
     }
 }
 
@@ -97,10 +93,9 @@ void WaterSupply::readReservoirsCsv(const std::string &path) {
 
         Reservoir tempReservoir(name, code, municipality, intId, doubleDelivery);
 
-        //waterSupply.addVertex(code);
-        //reservoirMap.insert({code, tempReservoir});
+        waterSupply.addVertex(code);
+        reservoirMap.insert({code, tempReservoir});
 
-        addReservoir(tempReservoir);
     }
 }
 
@@ -125,15 +120,13 @@ void WaterSupply::readPipesCsv(const std::string &path) {
 
         double doubleCapacity = stod(capacity);
 
-        /*
+
         if (direction == "1") {
             waterSupply.addEdge(origin, dest, doubleCapacity);
         } else {
             waterSupply.addBidirectionalEdge(origin, dest, doubleCapacity);
         }
-         */
 
-        addPipe(origin, dest, doubleCapacity, direction);
 
     }
 }
@@ -162,48 +155,8 @@ Graph<string> WaterSupply::getGraph() {
     return waterSupply;
 }
 
-bool WaterSupply::addCity(const City& city) {
 
-    //is checking for duplicates needed??
-    locationMap.insert({city.getCode(), waterSupply.pushVertex(city.getCode())});
-    cityMap.insert({city.getCode(), city});
 
-    return true;
-}
 
-bool WaterSupply::addReservoir(const Reservoir& reservoir) {
-
-    //is checking for duplicates needed??
-    locationMap.insert({reservoir.getCode(), waterSupply.pushVertex(reservoir.getCode())});
-    reservoirMap.insert({reservoir.getCode(), reservoir});
-
-    return true;
-}
-
-bool WaterSupply::addStation(const string &stationCode) {
-
-    //is checking for duplicates needed??
-    locationMap.insert({stationCode, waterSupply.pushVertex(stationCode)});
-
-    return true;
-}
-
-bool WaterSupply::addPipe(const string& src, const string& dest, const double& w, const string& direction) {
-
-    auto srcPtr = locationMap.find(src)->second;
-    auto destPtr = locationMap.find(dest)->second;
-
-    srcPtr->addEdge(destPtr, w);
-
-    if (direction == "0") {
-        destPtr->addEdge(srcPtr, w);
-    }
-
-    return true;
-}
-
-unordered_map<string, Vertex<string> *> WaterSupply::getLocations() {
-    return locationMap;
-}
 
 

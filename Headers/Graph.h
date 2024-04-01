@@ -132,8 +132,6 @@ public:
     bool dfsIsDAG(Vertex<T> *v) const;
     std::vector<T> topsort() const;
 
-    //added
-    Vertex<T>* pushVertex(const T &in); //adds a vertex to the vertex set and returns a pointer to it
 
 
 protected:
@@ -348,12 +346,6 @@ void Edge<T>::setFlow(double flow) {
 
 /********************** Graph  ****************************/
 
-template <class T>
-Vertex<T>* Graph<T>::pushVertex(const T &in) {
-    Vertex<T>* ptr = new Vertex<T>(in);
-    vertexSet.push_back(ptr);
-    return ptr;
-}
 
 template <class T>
 int Graph<T>::getNumVertex() const {

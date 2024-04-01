@@ -16,7 +16,6 @@ private:
     Graph<string> waterSupply;
     unordered_map<string, City> cityMap;
     unordered_map<string, Reservoir> reservoirMap;
-    unordered_map<string, Vertex<string>*> locationMap;
 public:
     WaterSupply() = default;
     //~WaterSupply();
@@ -30,15 +29,9 @@ public:
 
     unordered_map<string, City> getCities();
     unordered_map<string, Reservoir> getReservoirs();
-    unordered_map<string, Vertex<string>*> getLocations();
     Graph<string> getGraph();
 
-    bool addCity(const City& city);
-    bool addReservoir(const Reservoir& reservoir);
-    bool addStation(const string& stationCode);
-    bool addPipe(const string& src, const string& dest, const double& w, const string& direction);
-
-
+    vector<pair<string, int>> getMaxFlow;
 
 };
 
