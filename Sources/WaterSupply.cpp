@@ -293,6 +293,11 @@ Vertex<string>* WaterSupply::createSuperSource() {
 }
 
 
+void WaterSupply::clear() {
+    waterSupply= Graph<string>();
+    cityMap.clear();
+    reservoirMap.clear();
+}
 
 
 
