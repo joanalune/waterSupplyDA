@@ -45,7 +45,7 @@ void Menu::printServiceMetricsMenu(){
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << endl;
     cout    << "What would you like to do?" << endl;
-    cout    << "1. Consult maximum amount of water that can reach a city"<< endl;
+    cout    << "1. Consult maximum amount of water that can reach each city"<< endl;
     cout    << "2. Consult the networks' ability to provide water to all its customers" << endl;
     cout    << "3. Balance the load across the network" << endl; //greedy strategy, no need to implement, prepare for presentation
     cout    << "4. Return to main menu" << endl;
@@ -133,11 +133,18 @@ void Menu::runServiceMetricsMenu(){
         cin >> option;
 
         switch(option){
-            case 1:
-                //ask which city
-                //display max amount of water
+            case 1: {
+                auto result = waterSupply->maxFlowAll();
+                for (int i = 0; i < result.size() - 1; i++) {
+                    cout << "[" + result[i].first + "] " +
+                            waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
+                         << '\n';
+                }
+                cout << "max flow =" << result[result.size() - 1].second << '\n';
+            }
                 waitForInput();
                 break;
+
             case 2:
                 //display networks ability to satisfy costumers
                 waitForInput();

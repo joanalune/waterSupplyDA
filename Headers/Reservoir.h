@@ -13,6 +13,7 @@ private:
     double reservoirDelivery;
 public:
     Reservoir(std::string reservoirName, std::string reservoirCode, std::string reservoirMunicipality, int reservoirId, double reservoirDelivery);
+    Reservoir() = default;
     void setName(std::string name);
     void setCode(std::string code);
     void setMunicipality(std::string municipality);

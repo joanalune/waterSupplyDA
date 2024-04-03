@@ -13,6 +13,7 @@ private:
     double cityDemand;
 public:
     City(string cityName, string cityCode, string cityPopulation, int cityId, double cityDemand);
+    City() = default;
     void setName(string name);
     void setCode(string code);
     void setPopulation(string population);

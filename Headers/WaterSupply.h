@@ -31,8 +31,18 @@ public:
     unordered_map<string, Reservoir> getReservoirs();
     Graph<string> getGraph();
 
-    vector<pair<string, int>> getMaxFlow;
+    vector<pair<string, int>> maxFlowAll();
+    int maxFlowSingle(const string& cityCode);
 
+
+    //aux
+    Vertex<string>* createSuperSink();
+    Vertex<string>* createSuperSource();
+
+    void testAndVisit(std::queue< Vertex<string>*> &q, Edge<string> *e, Vertex<string> *v, double residual);
+    bool findAugmentingPath(Vertex<string> *source, Vertex<string> *sink);
+    void augmentFlowAlongPath(Vertex<string> *source, Vertex<string> *sink, double f);
+    int findMinResidualAlongPath(Vertex<string> *source, Vertex<string> *sink);
 };
 
 

@@ -149,11 +149,150 @@ WaterSupply::~WaterSupply() {
         delete reservoir.second;
     }
 }
-*/
+ */
 
 Graph<string> WaterSupply::getGraph() {
     return waterSupply;
 }
+
+vector<pair<string, int>> WaterSupply::maxFlowAll() {
+    vector<pair<string, int>> result;
+
+    Vertex<string>* superSource = createSuperSource();
+    Vertex<string>* superSink = createSuperSink();
+
+    for (auto v : waterSupply.getVertexSet()) {
+        for (auto e : v->getAdj()) e->setFlow(0);
+    }
+
+    int minRes;
+    while (findAugmentingPath(superSource, superSink)) {
+        minRes = findMinResidualAlongPath(superSource, superSink);
+        augmentFlowAlongPath(superSource, superSink, minRes);
+    }
+
+    string cityCode;
+    Vertex<string>* cityV;
+    int flow;
+    int totalMaxFlow = 0;
+    for (auto p : cityMap) {
+        cityCode = p.first;
+        cityV = waterSupply.findVertex(cityCode);
+
+        for (auto e : cityV->getAdj()) {
+            if (e->getDest()->getInfo() == superSink->getInfo()) {
+                flow = e->getFlow();
+                totalMaxFlow += flow;
+            }
+        }
+        result.push_back({cityCode, flow});
+    }
+
+    result.push_back({"MAX FLOW", totalMaxFlow});
+
+    waterSupply.removeVertex(superSource->getInfo());
+    waterSupply.removeVertex(superSink->getInfo());
+
+    return result;
+}
+
+bool WaterSupply::findAugmentingPath(Vertex<string> *source, Vertex<string> *sink) {
+
+    for(auto v : waterSupply.getVertexSet()) {
+        v->setVisited(false);
+    }
+
+    source->setVisited(true);
+    queue<Vertex<string> *> q;
+    q.push(source);
+    //BFS
+    while( ! q.empty() && ! sink->isVisited()) {
+        auto v = q.front();
+        q.pop();
+
+        for(auto e: v->getAdj()) {
+            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+        }
+
+        for(auto e: v->getIncoming()) {
+            testAndVisit(q, e, e->getOrig(), e->getFlow());
+        }
+    }
+
+    return sink->isVisited();
+}
+
+void WaterSupply::testAndVisit(queue<Vertex<string>*> &q, Edge<string> *e, Vertex<string> *v, double residual) {
+
+    if (! v->isVisited() && residual > 0) {
+
+        v->setVisited(true);
+        v->setPath(e);
+        q.push(v);
+    }
+}
+
+void WaterSupply::augmentFlowAlongPath(Vertex<string> *source, Vertex<string> *sink, double f) {
+
+    for (auto v = sink; v != source; ) {
+        auto e = v->getPath();
+        double flow = e->getFlow();
+        if (e->getDest() == v) {
+            e->setFlow(flow + f);
+            v = e->getOrig();
+        }
+        else {
+            e->setFlow(flow - f);
+            v = e->getDest();
+        }
+    }
+}
+
+int WaterSupply::findMinResidualAlongPath(Vertex<string> *source, Vertex<string> *sink) {
+    int minRes = INF;
+
+    for (auto v = sink; v != source; ) {
+        auto e = v->getPath();
+        if (e->getDest() == v) {
+            minRes = min(minRes, (int)(e->getWeight() - e->getFlow()));
+            v = e->getOrig();
+        }
+        else {
+            minRes = min(minRes, (int)e->getFlow());
+            v = e->getDest();
+        }
+    }
+
+    return minRes;
+}
+
+
+
+Vertex<string>* WaterSupply::createSuperSink() {
+    waterSupply.addVertex("SINK");
+
+    City city;
+    for (const auto& p : cityMap) {
+        city = p.second;
+        waterSupply.addEdge(city.getCode(), "SINK", city.getDemand());
+    }
+
+    return waterSupply.findVertex("SINK");
+}
+
+Vertex<string>* WaterSupply::createSuperSource() {
+    waterSupply.addVertex("SOURCE");
+
+    Reservoir reservoir;
+    for (const auto p : reservoirMap) {
+        reservoir = p.second;
+        waterSupply.addEdge("SOURCE", reservoir.getCode(), reservoir.getDelivery());
+    }
+
+    return waterSupply.findVertex("SOURCE");
+}
+
+
 
 
 
