@@ -155,6 +155,12 @@ Graph<string> WaterSupply::getGraph() {
     return waterSupply;
 }
 
+void WaterSupply::clear() {
+    waterSupply= Graph<string>();
+    cityMap.clear();
+    reservoirMap.clear();
+}
+
 
 
 

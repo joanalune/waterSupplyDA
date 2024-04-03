@@ -21,6 +21,7 @@ public:
     //~WaterSupply();
 
     //file reading
+    void clear ();
     void readSet(bool smallSet);
     void readCityCsv(const string& path);
     void readPipesCsv(const string& path);

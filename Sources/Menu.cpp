@@ -72,16 +72,17 @@ void Menu::runDataChoiceMenu(){
     while(true){
         system("clear");
         printDataChoiceMenu();
-
         int option;
         cin >> option;
 
         switch(option){
             case 1:
+                waterSupply->clear();
                 waterSupply->readSet(true);
                 runMainMenu();
                 return;
             case 2:
+                waterSupply->clear();
                 waterSupply->readSet(false);
                 runMainMenu();
                 return;
@@ -136,6 +137,7 @@ void Menu::runServiceMetricsMenu(){
             case 1:
                 //ask which city
                 //display max amount of water
+
                 waitForInput();
                 break;
             case 2:
