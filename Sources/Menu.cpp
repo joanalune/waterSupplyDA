@@ -45,7 +45,7 @@ void Menu::printServiceMetricsMenu(){
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << endl;
     cout    << "What would you like to do?" << endl;
-    cout    << "1. Consult maximum amount of water that can reach each city"<< endl;
+    cout    << "1. Consult maximum flow that can reach each city"<< endl;
     cout    << "2. Consult the networks' ability to provide water to all its customers" << endl;
     cout    << "3. Balance the load across the network" << endl; //greedy strategy, no need to implement, prepare for presentation
     cout    << "4. Return to main menu" << endl;
@@ -133,26 +133,37 @@ void Menu::runServiceMetricsMenu(){
         int option;
         cin >> option;
 
-        switch(option){
+        switch(option) {
             case 1: {
                 auto result = waterSupply->maxFlowAll();
                 for (int i = 0; i < result.size() - 1; i++) {
                     cout << "[" + result[i].first + "] " +
-                            waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
+                            waterSupply->getCities().find(result[i].first)->second.getName() << " -> " << result[i].second
                          << '\n';
                 }
-                cout << "max flow =" << result[result.size() - 1].second << '\n';
-            }
-                waitForInput();
-                break;
+                cout << "Total maximum flow =" << result[result.size() - 1].second << '\n';
 
-            case 2:
-                //display networks ability to satisfy costumers
                 waitForInput();
                 break;
+            }
+            case 2: {
+                cout << "The network is able to satisfy the demand in all cities except for:" << endl;
+
+                auto result = waterSupply->maxFlowAll();
+
+                for (int i = 0; i < result.size() - 1; i++) {
+                    if (waterSupply->getCities().find(result[i].first)->second.getDemand() > result[i].second) {
+                        cout << "[" + result[i].first + "] " +
+                                waterSupply->getCities().find(result[i].first)->second.getName() << " -> Deficit of "
+                             << waterSupply->getCities().find(result[i].first)->second.getDemand() -
+                                result[i].second << endl;
+                    }
+                }
+                waitForInput();
+                break;
+            }
             case 3:
-                //ask which city
-                //display crucial pipes
+                //print algorithm we come up with
                 waitForInput();
                 break;
             case 4:
