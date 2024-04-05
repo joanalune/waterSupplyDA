@@ -27,6 +27,8 @@ public:
 
     void waitForInput() const;
 
+    void printMaxFlowAll();
+
 };
 
 

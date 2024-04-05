@@ -134,15 +134,8 @@ void Menu::runServiceMetricsMenu(){
         cin >> option;
 
         switch(option){
-            case 1: {
-                auto result = waterSupply->maxFlowAll();
-                for (int i = 0; i < result.size() - 1; i++) {
-                    cout << "[" + result[i].first + "] " +
-                            waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
-                         << '\n';
-                }
-                cout << "max flow =" << result[result.size() - 1].second << '\n';
-            }
+            case 1:
+                printMaxFlowAll();
                 waitForInput();
                 break;
 
@@ -201,6 +194,17 @@ void Menu::runReliabilityFailureMenu(){
 
         }
     }
+}
+
+void Menu::printMaxFlowAll() {
+    auto result = waterSupply->maxFlowAll();
+    for (int i = 0; i < result.size() - 1; i++) {
+        cout << "[" + result[i].first + "] " +
+        waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
+        << '\n';
+    }
+    cout << "max flow =" << result[result.size() - 1].second << '\n';
+
 }
 
 
