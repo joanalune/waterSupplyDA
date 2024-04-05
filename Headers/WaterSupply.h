@@ -35,6 +35,8 @@ public:
     vector<pair<string, int>> maxFlowAll();
     int maxFlowSingle(const string& cityCode);
 
+    pair<vector<pair<string, int>>, vector<pair<string, int>>> flowRemoveReservoir(const string& reservoir);
+
 
     //aux
     Vertex<string>* createSuperSink();

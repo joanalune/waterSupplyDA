@@ -18,11 +18,15 @@ public:
     void printServiceMetricsMenu();
     void printReliabilityFailureMenu();
 
+    void printRemoveReservoirMenu();
+
     //menu running functions
     void runDataChoiceMenu();
     void runMainMenu();
     void runServiceMetricsMenu();
     void runReliabilityFailureMenu();
+
+    void runRemoveReservoirMenu();
 
 
     void waitForInput() const;
