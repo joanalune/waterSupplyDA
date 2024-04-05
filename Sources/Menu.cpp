@@ -1,4 +1,13 @@
+#include <iomanip>
 #include "../Headers/Menu.h"
+
+bool comparator(const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
+    if (a.first.length() == b.first.length()) {
+        return a.first < b.first;
+    }
+    return a.first.length() < b.first.length();
+}
+
 
 Menu::Menu(WaterSupply *w) {
     waterSupply = w;
@@ -65,6 +74,23 @@ void Menu::printReliabilityFailureMenu(){
     cout    << "3. Display crucial pipelines for water delivery in a specific city" << endl;
     cout    << "4. Return to main menu" << endl;
     cout    << "5. Exit" << endl;
+}
+
+void Menu::printRemoveReservoirMenu() {
+    cout << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << "     Water Supply Network Analysis      " << endl;
+    cout    << "        Reliability and Failures        " << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << endl;
+    cout    << "Which reservoir do you want to remove?"   << endl;
+
+    auto reservoirMap = waterSupply->getReservoirs();
+    for (int i = 1; i < reservoirMap.size()+1; i++) {
+        cout << i << ". " << reservoirMap["R_" + to_string(i)].getCode() << " - " <<  reservoirMap["R_" + to_string(i)].getName() << endl;
+    }
+
+    cout    << "Select a number from 1 to " << waterSupply->getReservoirs().size() << ":";
 }
 
 void Menu::runDataChoiceMenu(){
@@ -136,12 +162,13 @@ void Menu::runServiceMetricsMenu(){
         switch(option){
             case 1: {
                 auto result = waterSupply->maxFlowAll();
+                sort(result.begin(), result.end(), comparator);
                 for (int i = 0; i < result.size() - 1; i++) {
                     cout << "[" + result[i].first + "] " +
                             waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
                          << '\n';
                 }
-                cout << "max flow =" << result[result.size() - 1].second << '\n';
+                cout << "max flow = " << result[result.size() - 1].second << '\n';
             }
                 waitForInput();
                 break;
@@ -178,8 +205,7 @@ void Menu::runReliabilityFailureMenu(){
 
         switch(option){
             case 1:
-                //ask which water reservoirs
-                //simulate removal
+                runRemoveReservoirMenu();
                 waitForInput();
                 break;
             case 2:
@@ -199,6 +225,49 @@ void Menu::runReliabilityFailureMenu(){
                 cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<< endl;
                 return;
 
+        }
+    }
+}
+
+void Menu::runRemoveReservoirMenu() {
+    printRemoveReservoirMenu();
+
+    int option;
+    cin >> option;
+
+    auto mapReservoir = waterSupply->getReservoirs();
+    auto mapCity = waterSupply->getCities();
+
+    if (option > mapReservoir.size()) {
+        cout << "Invalid Reservoir! Please try again.\n";
+        return;
+    }
+
+    auto result = waterSupply->flowRemoveReservoir("R_" + to_string(option));
+
+    auto resultRemoved = result.first;
+    auto resultActual = result.second;
+    sort(resultRemoved.begin(), resultRemoved.end(), comparator);
+    sort(resultActual.begin(), resultActual.end(), comparator);
+
+
+    cout << "These cities were affected after removing R_" << option << " (" << mapReservoir["R_" + to_string(option)].getName() << "):" << endl << endl;
+    cout << "Code     Name              Before      After     Deficit\n";
+
+    for (int i = 0; i < resultActual.size(); i++) {
+        if (resultActual.at(i).first == resultRemoved.at(i).first and resultActual.at(i).second > resultRemoved.at(i).second) {
+            if (resultActual.at(i).first == "MAX FLOW") {
+                cout << left << setw(27) << resultActual.at(i).first;
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl << endl;
+            } else {
+                cout << left << setw(8) << resultActual.at(i).first << " ";
+                cout << left << setw(17) << mapCity[resultActual.at(i).first].getName() << " ";
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl;
+            }
         }
     }
 }
