@@ -93,6 +93,23 @@ void Menu::printRemoveReservoirMenu() {
     cout    << "Select a number from 1 to " << waterSupply->getReservoirs().size() << ":";
 }
 
+void Menu::printRemovePSMenu() {
+    cout << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << "     Water Supply Network Analysis      " << endl;
+    cout    << "        Reliability and Failures        " << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << endl;
+    cout    << "Which Pumping Station do you want to remove?"   << endl;
+
+    int psNum = waterSupply->getGraph().getNumVertex() - waterSupply->getCities().size() - waterSupply->getReservoirs().size();
+    for (int i = 1; i < psNum; i++) {
+        cout << i << ". " << "PS_" << i << endl;
+    }
+
+    cout    << "Select a number from 1 to " << psNum - 1<< ":";
+}
+
 void Menu::runDataChoiceMenu(){
 
     while(true){
@@ -219,8 +236,7 @@ void Menu::runReliabilityFailureMenu(){
                 waitForInput();
                 break;
             case 2:
-                //ask which pumping stations
-                //simulate removal
+                runRemovePSMenu();
                 waitForInput();
                 break;
             case 3:
@@ -248,12 +264,12 @@ void Menu::runRemoveReservoirMenu() {
     auto mapReservoir = waterSupply->getReservoirs();
     auto mapCity = waterSupply->getCities();
 
-    if (option > mapReservoir.size()) {
+    if (option > mapReservoir.size() or option <= 0) {
         cout << "Invalid Reservoir! Please try again.\n";
         return;
     }
 
-    auto result = waterSupply->flowRemoveReservoir("R_" + to_string(option));
+    auto result = waterSupply->flowRemoveNode("R_" + to_string(option));
 
     auto resultRemoved = result.first;
     auto resultActual = result.second;
@@ -281,5 +297,48 @@ void Menu::runRemoveReservoirMenu() {
         }
     }
 }
+
+void Menu::runRemovePSMenu() {
+    printRemovePSMenu();
+
+    int option;
+    cin >> option;
+
+    if (option >= waterSupply->getGraph().getNumVertex() - waterSupply->getCities().size() - waterSupply->getReservoirs().size() or option <= 0) {
+        cout << "Invalid Pumping Station! Please try again.\n";
+        return;
+    }
+
+    auto result = waterSupply->flowRemoveNode("PS_" + to_string(option));
+
+    auto resultRemoved = result.first;
+    auto resultActual = result.second;
+    sort(resultRemoved.begin(), resultRemoved.end(), comparator);
+    sort(resultActual.begin(), resultActual.end(), comparator);
+
+
+    cout << "These cities were affected after removing PS_" << option << ":" << endl << endl;
+    cout << "Code     Name              Before      After     Deficit\n";
+
+    auto mapCity = waterSupply->getCities();
+
+    for (int i = 0; i < resultActual.size(); i++) {
+        if (resultActual.at(i).first == resultRemoved.at(i).first and resultActual.at(i).second > resultRemoved.at(i).second) {
+            if (resultActual.at(i).first == "MAX FLOW") {
+                cout << left << setw(27) << resultActual.at(i).first;
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl << endl;
+            } else {
+                cout << left << setw(8) << resultActual.at(i).first << " ";
+                cout << left << setw(17) << mapCity[resultActual.at(i).first].getName() << " ";
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl;
+            }
+        }
+    }
+}
+
 
 

@@ -35,7 +35,7 @@ public:
     vector<pair<string, int>> maxFlowAll();
     int maxFlowSingle(const string& cityCode);
 
-    pair<vector<pair<string, int>>, vector<pair<string, int>>> flowRemoveReservoir(const string& reservoir);
+    pair<vector<pair<string, int>>, vector<pair<string, int>>> flowRemoveNode(const string& node);
 
 
     //aux
