@@ -33,6 +33,8 @@ public:
 
     void waitForInput() const;
 
+    void write(const string& path);
+
 };
 
 

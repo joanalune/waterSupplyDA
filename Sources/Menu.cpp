@@ -186,6 +186,8 @@ void Menu::runServiceMetricsMenu(){
                          << '\n';
                 }
                 cout << "Total maximum flow = " << result[result.size() - 1].second << '\n';
+                cout << "\nWriting the cities' flow to a file...\n";
+                write("../output/");
                 waitForInput();
                 break;
             }
@@ -340,5 +342,22 @@ void Menu::runRemovePSMenu() {
     }
 }
 
+void Menu::write(const string& path) {
+    ofstream of;
+    of.open(path + "citiesFlow.csv", ofstream::out | ofstream::trunc);
+    of.close();
+    of.open(path + "citiesFlow.csv", ofstream::out | ofstream::app);
+    of << "CityCode,CityName,Flow\n";
+    auto cityMap = waterSupply->getCities();
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+        if (v->getInfo().at(0) == 'C') {
+            double flow = 0;
+            for (auto e : v->getIncoming()) {
+                flow += e->getFlow();
+            }
+            of << v->getInfo() << ',' << cityMap[v->getInfo()].getName() << ',' <<  flow << '\n';
+        }
+    }
+}
 
 
