@@ -299,19 +299,28 @@ void WaterSupply::clear() {
     reservoirMap.clear();
 }
 
-pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemoveReservoir(const string& reservoir) {
-    Vertex<string>* v = waterSupply.findVertex(reservoir);
+pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemoveNode(const string& node) {
+    Vertex<string>* v = waterSupply.findVertex(node);
     unordered_map<string,double> temp;
     for (auto e : v->getAdj()) {
         temp.insert({e->getDest()->getInfo(), e->getWeight()});
         e->setWeight(0);
     }
+
+    for (auto e : v->getIncoming()) {
+        temp.insert({e->getOrig()->getInfo(), e->getWeight()});
+        e->setWeight(0);
+    }
+
     vector<pair<string,int>> resultTemp = maxFlowAll();
 
     for (auto e : v->getAdj()) {
         e->setWeight(temp[e->getDest()->getInfo()]);
     }
 
+    for (auto e : v->getIncoming()) {
+        e->setWeight(temp[e->getOrig()->getInfo()]);
+    }
 
     vector<pair<string,int>> resultActual = maxFlowAll();
 
@@ -362,6 +371,35 @@ Vertex<string> *WaterSupply::createExtractorSink(const string& cityCode) {
 
 
 
+bool WaterSupply::flowRemovePipeline(const string& origin, const string& dest, vector<pair<string,int>>& resActual, vector<pair<string,int>>& resTemp, int &maxFlowActual, int &maxFlowTemp){
+    resActual = maxFlowAll();
+    maxFlowActual = resActual[resActual.size()-1].second;
+
+    if(!waterSupply.findVertex(origin))return false;
+    if(!waterSupply.findVertex(dest))return false;
+    Vertex<string>* v = waterSupply.findVertex(origin);
+    Vertex<string>* u = waterSupply.findVertex(dest);
+    double weight;
+
+    for(auto n : v->getAdj()){
+        if(n->getDest()==u){
+            weight=n->getWeight();
+        }
+    }
+
+    if(!waterSupply.removeEdge(origin,dest)){
+       return false;
+    }
+
+    resTemp = maxFlowAll();
+    maxFlowTemp = resTemp[resTemp.size()-1].second;
+
+    if(!waterSupply.addEdge(origin,dest,weight)){
+        return false;
+    }
+
+    return true;
+}
 
 
 
