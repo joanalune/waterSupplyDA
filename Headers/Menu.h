@@ -18,6 +18,7 @@ public:
     void printServiceMetricsMenu();
     void printReliabilityFailureMenu();
 
+    void printMaxFlowSingleMenu();
     void printRemoveReservoirMenu();
 
     //menu running functions
@@ -26,12 +27,14 @@ public:
     void runServiceMetricsMenu();
     void runReliabilityFailureMenu();
 
+    void runMaxFlowSingleMenu();
     void runRemoveReservoirMenu();
 
 
     void waitForInput() const;
 
     void printMaxFlowAll();
+    void printMaxFlowSingle(const string& cityCode);
 
 };
 

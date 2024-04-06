@@ -41,6 +41,7 @@ public:
     //aux
     Vertex<string>* createSuperSink();
     Vertex<string>* createSuperSource();
+    Vertex<string>* createExtractorSink(const string& cityCode);
 
     void testAndVisit(std::queue< Vertex<string>*> &q, Edge<string> *e, Vertex<string> *v, double residual);
     bool findAugmentingPath(Vertex<string> *source, Vertex<string> *sink);
