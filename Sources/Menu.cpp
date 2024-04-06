@@ -284,22 +284,18 @@ void Menu::runRemoveReservoirMenu() {
     sort(resultActual.begin(), resultActual.end(), comparator);
 
 
-    cout << "These cities were affected after removing R_" << option << " (" << mapReservoir["R_" + to_string(option)].getName() << "):" << endl << endl;
-    cout << "Code     Name              Before      After     Deficit\n";
+    cout << "These cities were affected after removing R_" << option << " (" << mapReservoir["R_" + to_string(option)].getName() << "):" << endl;
 
     for (int i = 0; i < resultActual.size(); i++) {
         if (resultActual.at(i).first == resultRemoved.at(i).first and resultActual.at(i).second > resultRemoved.at(i).second) {
             if (resultActual.at(i).first == "MAX FLOW") {
-                cout << left << setw(27) << resultActual.at(i).first;
-                cout << left << setw(11) << resultActual.at(i).second << " ";
-                cout << left << setw(9) << resultRemoved.at(i).second << " ";
-                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl << endl;
+                cout << "Maximum flow before reservoir removal: "<< resultActual.at(i).second << endl;
+                cout << "Maximum flow after reservoir removal: " << resultRemoved.at(i).second << endl;
+                cout << "Deficit: " << resultActual.at(i).second - resultRemoved.at(i).second << endl;
             } else {
-                cout << left << setw(8) << resultActual.at(i).first << " ";
-                cout << left << setw(17) << mapCity[resultActual.at(i).first].getName() << " ";
-                cout << left << setw(11) << resultActual.at(i).second << " ";
-                cout << left << setw(9) << resultRemoved.at(i).second << " ";
-                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl;
+                cout << "[" + resultActual.at(i).first + "] " << mapCity[resultActual.at(i).first].getName() << " || Old Flow: "
+                << resultActual.at(i).second << " || New Flow: " << resultRemoved.at(i).second << " || Deficit: " <<
+                resultActual.at(i).second - resultRemoved.at(i).second << endl;
             }
         }
     }
@@ -312,7 +308,7 @@ void Menu::runPipelineRemoveMenu() {
         vector<pair<string, int>> resActual, resTemp;
         string origin, dest, input;
         int maxFlowTemp, maxFlowActual;
-        vector<string> citiesAffected;
+        bool noCitiesAffected = true;
         cin >> input;
 
         istringstream ss(input);
@@ -323,28 +319,31 @@ void Menu::runPipelineRemoveMenu() {
         if (!waterSupply->flowRemovePipeline(origin, dest, resActual, resTemp, maxFlowActual, maxFlowTemp)) {
             cout << "Pipeline not found!" << endl;
             waitForInput();
-        } else {
-            for (int i = 0; i < resActual.size() - 1; i++) {
-                cout << "[" + resActual[i].first + "] " +
-                        waterSupply->getCities().find(resActual[i].first)->second.getName() << " || Old flow: "
-                     << (resActual[i].second) << " || New flow: "
-                     << (resTemp[i].second) << endl;
+        }
+        else {
+            cout << "These cities were affected after removing the pipeline:" << endl;
 
-                if (resActual[i].second != resTemp[i].second) {
-                    citiesAffected.push_back(waterSupply->getCities().find(resActual[i].first)->second.getName());
+            for (int i = 0; i < resActual.size() - 1; i++) {
+
+                if (resActual[i].second != resTemp[i].second){
+
+                    cout << "[" + resActual[i].first + "] " +
+                            waterSupply->getCities().find(resActual[i].first)->second.getName() << " || Old flow: "
+                         << (resActual[i].second) << " || New flow: "
+                         << (resTemp[i].second) << endl;
+
+                    noCitiesAffected= false;
+
                 }
             }
-            if (!citiesAffected.empty()) {
-                cout << "Affected cities: ";
-                for (int i = 0; i < citiesAffected.size(); i++) {
-                    cout << citiesAffected[i] << ' ';
-                }
-                cout << endl;
-            } else {
-                cout << "No city affected!" << endl;
+
+            if(noCitiesAffected){
+                cout << "No cities affected!" << endl;
             }
+
             cout << "Maximum flow before pipe removal: " << maxFlowActual << endl;
             cout << "Maximum flow after pipe removal: " << maxFlowTemp << endl;
+            cout << "Deficit: " << maxFlowActual - maxFlowTemp << endl;
             break;
         }
     }
@@ -369,24 +368,19 @@ void Menu::runRemovePSMenu() {
     sort(resultActual.begin(), resultActual.end(), comparator);
 
 
-    cout << "These cities were affected after removing PS_" << option << ":" << endl << endl;
-    cout << "Code     Name              Before      After     Deficit\n";
+    cout << "These cities were affected after removing PS_" << option << ":" << endl;
     auto mapCity = waterSupply->getCities();
 
     for (int i = 0; i < resultActual.size(); i++) {
-        if (resultActual.at(i).first == resultRemoved.at(i).first and
-        resultActual.at(i).second > resultRemoved.at(i).second) {
+        if (resultActual.at(i).first == resultRemoved.at(i).first and resultActual.at(i).second > resultRemoved.at(i).second) {
             if (resultActual.at(i).first == "MAX FLOW") {
-                cout << left << setw(27) << resultActual.at(i).first;
-                cout << left << setw(11) << resultActual.at(i).second << " ";
-                cout << left << setw(9) << resultRemoved.at(i).second << " ";
-                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl << endl;
+                cout << "Maximum flow before pumping station removal: "<< resultActual.at(i).second << endl;
+                cout << "Maximum flow after pumping station removal: " << resultRemoved.at(i).second << endl;
+                cout << "Deficit: " << resultActual.at(i).second - resultRemoved.at(i).second << endl;
             } else {
-                cout << left << setw(8) << resultActual.at(i).first << " ";
-                cout << left << setw(17) << mapCity[resultActual.at(i).first].getName() << " ";
-                cout << left << setw(11) << resultActual.at(i).second << " ";
-                cout << left << setw(9) << resultRemoved.at(i).second << " ";
-                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl;
+                cout << "[" + resultActual.at(i).first + "] " << mapCity[resultActual.at(i).first].getName() << " || Old Flow: "
+                     << resultActual.at(i).second << " || New Flow: " << resultRemoved.at(i).second << " || Deficit: " <<
+                     resultActual.at(i).second - resultRemoved.at(i).second << endl;
             }
         }
     }
