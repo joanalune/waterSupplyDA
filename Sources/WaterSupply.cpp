@@ -318,7 +318,35 @@ pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemo
     return make_pair(resultTemp, resultActual);
 }
 
+bool WaterSupply::flowRemovePipeline(const string& origin, const string& dest, vector<pair<string,int>>& resActual, vector<pair<string,int>>& resTemp, int &maxFlowActual, int &maxFlowTemp){
+    resActual = maxFlowAll();
+    maxFlowActual = resActual[resActual.size()-1].second;
 
+    if(!waterSupply.findVertex(origin))return false;
+    if(!waterSupply.findVertex(dest))return false;
+    Vertex<string>* v = waterSupply.findVertex(origin);
+    Vertex<string>* u = waterSupply.findVertex(dest);
+    double weight;
+
+    for(auto n : v->getAdj()){
+        if(n->getDest()==u){
+            weight=n->getWeight();
+        }
+    }
+
+    if(!waterSupply.removeEdge(origin,dest)){
+       return false;
+    }
+
+    resTemp = maxFlowAll();
+    maxFlowTemp = resTemp[resTemp.size()-1].second;
+
+    if(!waterSupply.addEdge(origin,dest,weight)){
+        return false;
+    }
+
+    return true;
+}
 
 
 

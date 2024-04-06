@@ -19,6 +19,7 @@ public:
     void printReliabilityFailureMenu();
 
     void printRemoveReservoirMenu();
+    void printRemovePipelineMenu();
 
     //menu running functions
     void runDataChoiceMenu();
@@ -27,10 +28,9 @@ public:
     void runReliabilityFailureMenu();
 
     void runRemoveReservoirMenu();
-
+    void runPipelineRemoveMenu();
 
     void waitForInput() const;
-
 };
 
 

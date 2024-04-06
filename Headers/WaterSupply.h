@@ -36,8 +36,7 @@ public:
     int maxFlowSingle(const string& cityCode);
 
     pair<vector<pair<string, int>>, vector<pair<string, int>>> flowRemoveReservoir(const string& reservoir);
-
-
+    bool flowRemovePipeline(const string &origin, const string &dest, vector<pair<string, int>> &resActual,vector<pair<string, int>> &resTemp, int &maxFlowActual, int &maxFlowTemp);
     //aux
     Vertex<string>* createSuperSink();
     Vertex<string>* createSuperSource();
@@ -46,6 +45,9 @@ public:
     bool findAugmentingPath(Vertex<string> *source, Vertex<string> *sink);
     void augmentFlowAlongPath(Vertex<string> *source, Vertex<string> *sink, double f);
     int findMinResidualAlongPath(Vertex<string> *source, Vertex<string> *sink);
+
+
+
 };
 
 
