@@ -18,6 +18,7 @@ public:
     void printServiceMetricsMenu();
     void printReliabilityFailureMenu();
 
+    void printMaxFlowSingleMenu();
     void printRemoveReservoirMenu();
     void printRemovePSMenu();
     void printRemovePipelineMenu();
@@ -28,6 +29,7 @@ public:
     void runServiceMetricsMenu();
     void runReliabilityFailureMenu();
 
+    void runMaxFlowSingleMenu();
     void runRemoveReservoirMenu();
     void runRemovePSMenu();
     void runPipelineRemoveMenu();
@@ -35,6 +37,9 @@ public:
 
     void waitForInput() const;
     void write(const string& path);
+
+    void printMaxFlowAll();
+    void printMaxFlowSingle(const string& cityCode);
 
 };
 

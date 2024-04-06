@@ -54,11 +54,12 @@ void Menu::printServiceMetricsMenu(){
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << endl;
     cout    << "What would you like to do?" << endl;
-    cout    << "1. Consult maximum flow that can reach each city"<< endl;
-    cout    << "2. Consult the networks' ability to provide water to all its customers" << endl;
-    cout    << "3. Balance the load across the network" << endl; //greedy strategy, no need to implement, prepare for presentation
-    cout    << "4. Return to main menu" << endl;
-    cout    << "5. Exit" << endl;
+    cout    << "1. Consult maximum flow that can reach each city" << endl;
+    cout    << "2. Consult maximum flow that can reach a specific city" << endl;
+    cout    << "3. Consult the networks' ability to provide water to all its customers" << endl;
+    cout    << "4. Balance the load across the network" << endl; //greedy strategy, no need to implement, prepare for presentation
+    cout    << "5. Return to main menu" << endl;
+    cout    << "6. Exit" << endl;
 }
 
 void Menu::printReliabilityFailureMenu(){
@@ -74,6 +75,16 @@ void Menu::printReliabilityFailureMenu(){
     cout    << "3. Simulate pipe removal" << endl;
     cout    << "4. Return to main menu" << endl;
     cout    << "5. Exit" << endl;
+}
+
+void Menu::printMaxFlowSingleMenu() {
+    cout << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << "     Water Supply Network Analysis      " << endl;
+    cout    << "        Reliability and Failures        " << endl;
+    cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout    << endl;
+    cout    << "Which city do you want to direct all flow to?"   << endl;
 }
 
 void Menu::printRemoveReservoirMenu() {
@@ -182,22 +193,18 @@ void Menu::runServiceMetricsMenu(){
         int option;
         cin >> option;
 
-        switch(option) {
-            case 1: {
-                auto result = waterSupply->maxFlowAll();
-                sort(result.begin(), result.end(), comparator);
-                for (int i = 0; i < result.size() - 1; i++) {
-                    cout << "[" + result[i].first + "] " +
-                            waterSupply->getCities().find(result[i].first)->second.getName() << " -> " << result[i].second
-                         << '\n';
-                }
-                cout << "Total maximum flow = " << result[result.size() - 1].second << '\n';
-                cout << "\nWriting the cities' flow to a file...\n";
-                write("../output/");
+        switch(option){
+            case 1:
+                printMaxFlowAll();
                 waitForInput();
                 break;
-            }
-            case 2: {
+
+            case 2:
+                runMaxFlowSingleMenu();
+                waitForInput();
+                break;
+
+            case 3: {
                 cout << "The network is able to satisfy the demand in all cities except for:" << endl;
 
                 auto result = waterSupply->maxFlowAll();
@@ -213,14 +220,14 @@ void Menu::runServiceMetricsMenu(){
                 waitForInput();
                 break;
             }
-            case 3:
+            case 4:
                 //print algorithm we come up with
                 waitForInput();
                 break;
-            case 4:
+            case 5:
                 runMainMenu();
                 return;
-            case 5:
+            case 6:
                 cout << "Thank you for using our Water Supply Analysis System (˶ᵔ ᵕ ᵔ˶)"<< endl;
                 return;
             default:
@@ -260,6 +267,39 @@ void Menu::runReliabilityFailureMenu(){
 
         }
     }
+}
+
+void Menu::printMaxFlowAll() {
+    auto result = waterSupply->maxFlowAll();
+    for (int i = 0; i < result.size() - 1; i++) {
+        cout << "[" + result[i].first + "] " +
+                waterSupply->getCities().find(result[i].first)->second.getName() << "->" << result[i].second
+             << '\n';
+    }
+    cout << "max flow =" << result[result.size() - 1].second << '\n';
+}
+
+void Menu::runMaxFlowSingleMenu() {
+    string cityCode;
+    while (true) {
+        system("clear");
+        printMaxFlowSingleMenu();
+        cin >> cityCode;
+
+        if (waterSupply->getCities().find(cityCode) == waterSupply->getCities().end()) {
+            cout << "Invalid city! Please try again." << endl;
+            continue;
+        }
+
+        printMaxFlowSingle(cityCode);
+        break;
+    }
+}
+
+void Menu::printMaxFlowSingle(const string& cityCode) {
+    int maxFlow = waterSupply->maxFlowSingle(cityCode);
+
+    cout << "max flow to [" + cityCode + "] " + waterSupply->getCities().find(cityCode)->second.getName() + ": " << maxFlow << endl;
 }
 
 void Menu::runRemoveReservoirMenu() {

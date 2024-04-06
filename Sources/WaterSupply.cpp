@@ -188,7 +188,7 @@ vector<pair<string, int>> WaterSupply::maxFlowAll() {
         result.push_back({cityCode, flow});
     }
 
-    result.push_back({"MAX FLOW", totalMaxFlow});
+    result.push_back({"MAX FLOW", totalMaxFlow});  //vector now in the form {{city, flow}, {city, flow}, ..., {"MAX FLOW", maxFlow}}
 
     waterSupply.removeVertex(superSource->getInfo());
     waterSupply.removeVertex(superSink->getInfo());
@@ -326,6 +326,50 @@ pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemo
 
     return make_pair(resultTemp, resultActual);
 }
+
+int WaterSupply::maxFlowSingle(const string &cityCode) {
+
+    Vertex<string>* superSource = createSuperSource();
+    Vertex<string>* sink = waterSupply.findVertex(cityCode);
+    Vertex<string>* extractorSink = createExtractorSink(cityCode);  //vertex with an edge from the city; is used as sink in algorithm so that we can get the flow to the city by examining this edge
+
+    for (auto v : waterSupply.getVertexSet()) {
+        for (auto e : v->getAdj()) e->setFlow(0);
+    }
+
+    int minRes;
+    while (findAugmentingPath(superSource, extractorSink)) {
+        minRes = findMinResidualAlongPath(superSource, extractorSink);
+        augmentFlowAlongPath(superSource, extractorSink, minRes);
+    }
+
+    int result;
+
+    for (auto e : sink->getAdj()) {
+        if (e->getDest()->getInfo() == extractorSink->getInfo()) {
+            result = e->getFlow();
+        }
+    }
+
+    waterSupply.removeVertex(superSource->getInfo());
+    waterSupply.removeVertex(extractorSink->getInfo());
+
+    return result;
+}
+
+Vertex<string> *WaterSupply::createExtractorSink(const string& cityCode) {
+
+    waterSupply.addVertex("EXTRACTOR SINK");
+
+    Vertex<string>* supposedSink = waterSupply.findVertex(cityCode);
+
+    waterSupply.addEdge(cityCode, "EXTRACTOR SINK", cityMap.find(supposedSink->getInfo())->second.getDemand());
+
+
+    return waterSupply.findVertex("EXTRACTOR SINK");
+}
+
+
 
 bool WaterSupply::flowRemovePipeline(const string& origin, const string& dest, vector<pair<string,int>>& resActual, vector<pair<string,int>>& resTemp, int &maxFlowActual, int &maxFlowTemp){
     resActual = maxFlowAll();
