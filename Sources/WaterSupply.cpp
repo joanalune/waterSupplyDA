@@ -299,19 +299,28 @@ void WaterSupply::clear() {
     reservoirMap.clear();
 }
 
-pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemoveReservoir(const string& reservoir) {
-    Vertex<string>* v = waterSupply.findVertex(reservoir);
+pair<vector<pair<string, int>>, vector<pair<string, int>>> WaterSupply::flowRemoveNode(const string& node) {
+    Vertex<string>* v = waterSupply.findVertex(node);
     unordered_map<string,double> temp;
     for (auto e : v->getAdj()) {
         temp.insert({e->getDest()->getInfo(), e->getWeight()});
         e->setWeight(0);
     }
+
+    for (auto e : v->getIncoming()) {
+        temp.insert({e->getOrig()->getInfo(), e->getWeight()});
+        e->setWeight(0);
+    }
+
     vector<pair<string,int>> resultTemp = maxFlowAll();
 
     for (auto e : v->getAdj()) {
         e->setWeight(temp[e->getDest()->getInfo()]);
     }
 
+    for (auto e : v->getIncoming()) {
+        e->setWeight(temp[e->getOrig()->getInfo()]);
+    }
 
     vector<pair<string,int>> resultActual = maxFlowAll();
 

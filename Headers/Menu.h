@@ -19,6 +19,7 @@ public:
     void printReliabilityFailureMenu();
 
     void printRemoveReservoirMenu();
+    void printRemovePSMenu();
     void printRemovePipelineMenu();
 
     //menu running functions
@@ -28,9 +29,13 @@ public:
     void runReliabilityFailureMenu();
 
     void runRemoveReservoirMenu();
+    void runRemovePSMenu();
     void runPipelineRemoveMenu();
 
+
     void waitForInput() const;
+    void write(const string& path);
+
 };
 
 

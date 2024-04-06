@@ -104,6 +104,17 @@ void Menu::printRemovePipelineMenu() {
     cout    << endl;
 }
 
+void Menu::printRemovePSMenu() {
+    cout    << endl;
+    cout    << "Which Pumping Station do you want to remove?"   << endl;
+
+    int psNum = waterSupply->getGraph().getNumVertex() - waterSupply->getCities().size() - waterSupply->getReservoirs().size();
+    for (int i = 1; i < psNum; i++) {
+        cout << i << ". " << "PS_" << i << endl;
+    }
+
+    cout    << "Select a number from 1 to " << psNum - 1<< ":";
+}
 
 void Menu::runDataChoiceMenu(){
 
@@ -181,6 +192,8 @@ void Menu::runServiceMetricsMenu(){
                          << '\n';
                 }
                 cout << "Total maximum flow = " << result[result.size() - 1].second << '\n';
+                cout << "\nWriting the cities' flow to a file...\n";
+                write("../output/");
                 waitForInput();
                 break;
             }
@@ -231,8 +244,7 @@ void Menu::runReliabilityFailureMenu(){
                 waitForInput();
                 break;
             case 2:
-                //ask which pumping stations
-                //simulate removal
+                runRemovePSMenu();
                 waitForInput();
                 break;
             case 3:
@@ -259,12 +271,12 @@ void Menu::runRemoveReservoirMenu() {
     auto mapReservoir = waterSupply->getReservoirs();
     auto mapCity = waterSupply->getCities();
 
-    if (option > mapReservoir.size()) {
+    if (option > mapReservoir.size() or option <= 0) {
         cout << "Invalid Reservoir! Please try again.\n";
         return;
     }
 
-    auto result = waterSupply->flowRemoveReservoir("R_" + to_string(option));
+    auto result = waterSupply->flowRemoveNode("R_" + to_string(option));
 
     auto resultRemoved = result.first;
     auto resultActual = result.second;
@@ -293,13 +305,13 @@ void Menu::runRemoveReservoirMenu() {
     }
 }
 
-void Menu::runPipelineRemoveMenu(){
-    while(true){
+void Menu::runPipelineRemoveMenu() {
+    while (true) {
         printRemovePipelineMenu();
 
-        vector<pair<string,int>> resActual,resTemp;
-        string origin,dest,input;
-        int maxFlowTemp,maxFlowActual;
+        vector<pair<string, int>> resActual, resTemp;
+        string origin, dest, input;
+        int maxFlowTemp, maxFlowActual;
         vector<string> citiesAffected;
         cin >> input;
 
@@ -308,12 +320,10 @@ void Menu::runPipelineRemoveMenu(){
         getline(ss, origin, ',');
         getline(ss, dest);
 
-        if(!waterSupply->flowRemovePipeline(origin, dest, resActual, resTemp, maxFlowActual,maxFlowTemp)){
+        if (!waterSupply->flowRemovePipeline(origin, dest, resActual, resTemp, maxFlowActual, maxFlowTemp)) {
             cout << "Pipeline not found!" << endl;
             waitForInput();
-        }
-
-        else {
+        } else {
             for (int i = 0; i < resActual.size() - 1; i++) {
                 cout << "[" + resActual[i].first + "] " +
                         waterSupply->getCities().find(resActual[i].first)->second.getName() << " || Old flow: "
@@ -326,12 +336,11 @@ void Menu::runPipelineRemoveMenu(){
             }
             if (!citiesAffected.empty()) {
                 cout << "Affected cities: ";
-                for (int i=0; i < citiesAffected.size(); i++){
-                    cout<< citiesAffected[i] <<' ';
+                for (int i = 0; i < citiesAffected.size(); i++) {
+                    cout << citiesAffected[i] << ' ';
                 }
                 cout << endl;
-            }
-            else{
+            } else {
                 cout << "No city affected!" << endl;
             }
             cout << "Maximum flow before pipe removal: " << maxFlowActual << endl;
@@ -339,7 +348,66 @@ void Menu::runPipelineRemoveMenu(){
             break;
         }
     }
+}
 
+void Menu::runRemovePSMenu() {
+    printRemovePSMenu();
+    int option;
+    cin >> option;
+
+    if (option >= waterSupply->getGraph().getNumVertex() - waterSupply->getCities().size() -
+        waterSupply->getReservoirs().size() or option <= 0) {
+            cout << "Invalid Pumping Station! Please try again.\n";
+            return;
+        }
+
+    auto result = waterSupply->flowRemoveNode("PS_" + to_string(option));
+
+    auto resultRemoved = result.first;
+    auto resultActual = result.second;
+    sort(resultRemoved.begin(), resultRemoved.end(), comparator);
+    sort(resultActual.begin(), resultActual.end(), comparator);
+
+
+    cout << "These cities were affected after removing PS_" << option << ":" << endl << endl;
+    cout << "Code     Name              Before      After     Deficit\n";
+    auto mapCity = waterSupply->getCities();
+
+    for (int i = 0; i < resultActual.size(); i++) {
+        if (resultActual.at(i).first == resultRemoved.at(i).first and
+        resultActual.at(i).second > resultRemoved.at(i).second) {
+            if (resultActual.at(i).first == "MAX FLOW") {
+                cout << left << setw(27) << resultActual.at(i).first;
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl << endl;
+            } else {
+                cout << left << setw(8) << resultActual.at(i).first << " ";
+                cout << left << setw(17) << mapCity[resultActual.at(i).first].getName() << " ";
+                cout << left << setw(11) << resultActual.at(i).second << " ";
+                cout << left << setw(9) << resultRemoved.at(i).second << " ";
+                cout << left << setw(9) << resultActual.at(i).second - resultRemoved.at(i).second << endl;
+            }
+        }
+    }
+}
+
+void Menu::write(const string &path) {
+    ofstream of;
+    of.open(path + "citiesFlow.csv", ofstream::out | ofstream::trunc);
+    of.close();
+    of.open(path + "citiesFlow.csv", ofstream::out | ofstream::app);
+    of << "CityCode,CityName,Flow\n";
+    auto cityMap = waterSupply->getCities();
+    for (auto v: waterSupply->getGraph().getVertexSet()) {
+        if (v->getInfo().at(0) == 'C') {
+            double flow = 0;
+            for (auto e: v->getIncoming()) {
+                    flow += e->getFlow();
+            }
+            of << v->getInfo() << ',' << cityMap[v->getInfo()].getName() << ',' << flow << '\n';
+        }
+    }
 }
 
 
