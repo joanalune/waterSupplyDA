@@ -1,4 +1,3 @@
-#include <iomanip>
 #include "../Headers/Menu.h"
 
 bool comparator(const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
@@ -69,7 +68,7 @@ void Menu::printReliabilityFailureMenu(){
     cout    << "        Reliability and Failures        " << endl;
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << endl;
-    cout    << "What would you like to consult?" << endl;
+    cout    << "What would you like to do?" << endl;
     cout    << "1. Simulate water reservoir removal"<< endl;
     cout    << "2. Simulate pumping station removal" << endl;
     cout    << "3. Simulate pipe removal" << endl;
@@ -110,7 +109,7 @@ void Menu::printRemovePipelineMenu() {
     cout    << "     Water Supply Network Analysis      " << endl;
     cout    << "        Reliability and Failures        " << endl;
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    cout    << "Write the origin and the destination of the pipe you want to remove in the format: code1,code2"
+    cout    << "Input the origin and the destination of the pipe you want to remove in the format: code1,code2"
                " for example: R_1,PS_1"   << endl;
     cout    << endl;
 }
@@ -221,7 +220,7 @@ void Menu::runServiceMetricsMenu(){
                 break;
             }
             case 4:
-                //print algorithm we come up with
+                printBalanceFlow();
                 waitForInput();
                 break;
             case 5:
@@ -277,6 +276,7 @@ void Menu::printMaxFlowAll() {
              << '\n';
     }
     cout << "max flow =" << result[result.size() - 1].second << '\n';
+    write("../output/");
 }
 
 void Menu::runMaxFlowSingleMenu() {
@@ -442,6 +442,97 @@ void Menu::write(const string &path) {
             of << v->getInfo() << ',' << cityMap[v->getInfo()].getName() << ',' << flow << '\n';
         }
     }
+}
+
+void Menu::printBalanceFlow() {
+    auto result = waterSupply->maxFlowAll();
+
+    double varianceBefore = 0, averageDiffBefore = 0, maxDiffBefore = 0;
+    double totCapacity = 0;
+    int pipesTot = 0;
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+        pipesTot += v->getAdj().size();
+        for (auto e : v->getAdj()) {
+            averageDiffBefore += e->getWeight() - e->getFlow();
+            maxDiffBefore = max(maxDiffBefore, e->getWeight() - e->getFlow());
+            totCapacity += e->getWeight();
+        }
+    }
+    averageDiffBefore /= pipesTot;
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+        for (auto e : v->getAdj()) {
+            varianceBefore += pow(e->getWeight() - e->getFlow() - averageDiffBefore,2);
+        }
+    }
+    varianceBefore /= pipesTot;
+
+
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+
+        if (v->getInfo().at(0) == 'C') {
+            double cityCapacity = 0, cityFlow = 0;
+            for (auto e: v->getIncoming()) {
+                cityCapacity += e->getWeight();
+                cityFlow += e->getFlow();
+            }
+            double cityRatio = cityFlow / cityCapacity;
+            for (auto e: v->getIncoming()) {
+                e->setFlow(e->getWeight() * cityRatio);
+            }
+
+        } else if (v->getInfo().at(0) == 'R') {
+            double resCapacity = 0, resFlow = 0;
+            for (auto e: v->getAdj()) {
+                resCapacity += e->getWeight();
+                resFlow += e->getFlow();
+            }
+            double resRatio = resFlow / resCapacity;
+            for (auto e: v->getAdj()) {
+                e->setFlow(e->getWeight() * resRatio);
+            }
+
+        } else {
+            double psCapacity = 0, psFlow = 0;
+            for (auto e: v->getAdj()) {
+                if (e->getDest()->getInfo().at(0) != 'C') {
+                    psCapacity += e->getWeight();
+                    psFlow += e->getFlow();
+                }
+            }
+            double psRatio = psFlow / psCapacity;
+            for (auto e: v->getAdj()) {
+                if (e->getDest()->getInfo().at(0) != 'C') {
+                    e->setFlow(e->getWeight() * psRatio);
+                }
+            }
+        }
+    }
+
+
+
+    double varianceAfter = 0, averageDiffAfter = 0, maxDiffAfter = 0;
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+        for (auto e : v->getAdj()) {
+            averageDiffAfter += e->getWeight() - e->getFlow();
+            maxDiffAfter = max(maxDiffAfter, e->getWeight() - e->getFlow());
+
+        }
+    }
+    averageDiffAfter /= pipesTot;
+    for (auto v : waterSupply->getGraph().getVertexSet()) {
+        for (auto e : v->getAdj()) {
+            varianceAfter += pow(e->getWeight() - e->getFlow() - averageDiffAfter,2);
+        }
+    }
+    varianceAfter /= pipesTot;
+
+    cout << "Network balance's metrics:" << endl << endl;
+    cout << "Average difference:" << endl;
+    cout << "Before: " << averageDiffBefore << "  ||  After: " << averageDiffAfter << endl << endl;
+    cout << "Maximum Difference:" << endl;
+    cout << "Before: " << maxDiffBefore << "  ||  After: " << maxDiffAfter << endl << endl;
+    cout << "Variance:" << endl;
+    cout << "Before: " << varianceBefore << "  ||  After: " << varianceAfter << endl << endl;
 }
 
 
