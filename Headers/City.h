@@ -51,28 +51,23 @@ public:
      */
     void setDemand(double demand);
     /**
-     * Returns a city's name
-     * @return
+     * @return city's name
      */
     string getName() const;
     /**
-     * Returns a city's code
-     * @return
+     * @return city's code
      */
     string getCode() const;
     /**
-     * Returns a city's population
-     * @return
+     * @return city's population
      */
     string getPopulation() const;
     /**
-     * Returns a city's ID
-     * @return
+     * @return city's ID
      */
     int getId() const;
     /**
-     * Returns a city's demand
-     * @return
+     * @return city's demand
      */
     double getDemand() const;
 };

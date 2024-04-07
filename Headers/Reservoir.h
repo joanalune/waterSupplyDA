@@ -51,28 +51,23 @@ public:
      */
     void setDelivery(double delivery);
     /**
-     * Returns a reservoir's name
-     * @return
+     * @return a reservoir's name
      */
     string getName() const;
     /**
-     * Returns a reservoir's code
-     * @return
+     * @return a reservoir's code
      */
     string getCode() const;
     /**
-     * Returns a reservoir's municipality name
-     * @return
+     * @return a reservoir's municipality name
      */
     string getMunicipality() const;
     /**
-     * Returns a reservoir's ID
-     * @return
+     * @return a reservoir's ID
      */
     int getId() const;
     /**
-     * Returns a reservoir's delivery
-     * @return
+     * @return a reservoir's delivery
      */
     double getDelivery() const;
 };

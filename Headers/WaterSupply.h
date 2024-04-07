@@ -73,18 +73,15 @@ public:
      */
     void readStationsCsv(const string& path);
     /**
-     * Returns unordered map with cities' information
-     * @return
+     * @return unordered map with cities' information
      */
     unordered_map<string, City> getCities();
     /**
-     * Returns unordered map with reservoirs' information
-     * @return
+     * @return unordered map with reservoirs' information
      */
     unordered_map<string, Reservoir> getReservoirs();
     /**
-     * Returns the graph
-     * @return
+     * @return the graph
      */
     Graph<string> getGraph();
 
