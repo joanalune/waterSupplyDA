@@ -61,8 +61,6 @@ void WaterSupply::readStationsCsv(const std::string &path) {
         getline(iss, id, ',');
         getline(iss, code, ',');
 
-        //int intId = stoi(id);
-        //Criar unordered_map?
         waterSupply.addVertex(code);
 
     }
