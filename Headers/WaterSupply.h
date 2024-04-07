@@ -100,8 +100,26 @@ public:
      * r: number of reservoirs
      */
     int maxFlowSingle(const string& cityCode);
-
+    /**
+     * Removes a reservoir or a pumping station from the graph and adds it back
+     * @param node to remove
+     * @return a pair of vectors, containing the max flow before and after removing the node
+     * @details Time complexity: O(m + X + m), m being the number of the node's
+     * incoming and outgoing edges and X being the time complexity of the maxFlowALl() function
+     */
     pair<vector<pair<string, int>>, vector<pair<string, int>>> flowRemoveNode(const string& node);
+    /**
+     * Removes a pipeline from the graph and adds it back
+     * @param origin origin vertex
+     * @param dest destination vertex
+     * @param resActual container to store max flow before removing the pipe
+     * @param resTemp container to store max flow after removing the pipe
+     * @param maxFlowActual max flow value before removal
+     * @param maxFlowTemp max flow value after removal
+     * @return
+     * @details Time complexity: O(V + m + X + (V + E) + V), V being the number of vertices in the graph, E
+     * the number of edges, X being the complexity of the maxFlowAll() function and m the number of outgoing edges from the pipe origin vertex.
+     */
     bool flowRemovePipeline(const string &origin, const string &dest, vector<pair<string, int>> &resActual,vector<pair<string, int>> &resTemp, int &maxFlowActual, int &maxFlowTemp);
 
 
