@@ -234,7 +234,8 @@ void WaterSupply::testAndVisit(queue<Vertex<string>*> &q, Edge<string> *e, Verte
 
 void WaterSupply::augmentFlowAlongPath(Vertex<string> *source, Vertex<string> *sink, double f) {
 
-    for (auto v = sink; v != source; ) {
+    Vertex<string>* v = sink;
+    while (v != source) {
         auto e = v->getPath();
         double flow = e->getFlow();
         if (e->getDest() == v) {

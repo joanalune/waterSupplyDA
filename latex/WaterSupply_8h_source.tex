@@ -1,0 +1,64 @@
+\doxysection{Water\+Supply.\+h}
+\hypertarget{WaterSupply_8h_source}{}\label{WaterSupply_8h_source}\index{Headers/WaterSupply.h@{Headers/WaterSupply.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ WATERSUPPLYDA\_WATERSUPPLY\_H}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ WATERSUPPLYDA\_WATERSUPPLY\_H}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}Graph.h"{}}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}City.h"{}}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}Reservoir.h"{}}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00012}00012\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00014}\mbox{\hyperlink{classWaterSupply}{00014}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classWaterSupply}{WaterSupply}}\ \{}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00015}00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00016}00016\ \ \ \ \ \mbox{\hyperlink{classEdge}{Graph<string>}}\ waterSupply;}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00017}00017\ \ \ \ \ \mbox{\hyperlink{classEdge}{unordered\_map<string,\ City>}}\ cityMap;}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00018}00018\ \ \ \ \ \mbox{\hyperlink{classEdge}{unordered\_map<string,\ Reservoir>}}\ reservoirMap;}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00019}00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00020}00020\ \ \ \ \ \mbox{\hyperlink{classWaterSupply}{WaterSupply}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00021}00021\ \ \ \ \ \textcolor{comment}{//\string~WaterSupply();}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//file\ reading}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00024}00024\ \ \ \ \ \textcolor{keywordtype}{void}\ clear\ ();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00025}00025\ \ \ \ \ \textcolor{keywordtype}{void}\ readSet(\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classEdge}{smallSet}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00026}00026\ \ \ \ \ \textcolor{keywordtype}{void}\ readCityCsv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00027}00027\ \ \ \ \ \textcolor{keywordtype}{void}\ readPipesCsv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00028}00028\ \ \ \ \ \textcolor{keywordtype}{void}\ readReservoirsCsv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00029}00029\ \ \ \ \ \textcolor{keywordtype}{void}\ readStationsCsv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00031}00031\ \ \ \ \ \mbox{\hyperlink{classEdge}{unordered\_map<string,\ City>}}\ getCities();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00032}00032\ \ \ \ \ \mbox{\hyperlink{classEdge}{unordered\_map<string,\ Reservoir>}}\ getReservoirs();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00033}00033\ \ \ \ \ \mbox{\hyperlink{classEdge}{Graph<string>}}\ getGraph();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00041}\mbox{\hyperlink{classWaterSupply_a67fde53e90a3e599447bbe912498842d}{00041}}\ \ \ \ \ \mbox{\hyperlink{classEdge}{vector<pair<string,\ int>}}>\ \mbox{\hyperlink{classWaterSupply_a67fde53e90a3e599447bbe912498842d}{maxFlowAll}}();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00049}\mbox{\hyperlink{classWaterSupply_a5c55a3c55bca502e9c05dab03611997b}{00049}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classWaterSupply_a5c55a3c55bca502e9c05dab03611997b}{maxFlowSingle}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ cityCode);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00051}00051\ \ \ \ \ \mbox{\hyperlink{classEdge}{pair<vector<pair<string,\ int>}}>,\ \mbox{\hyperlink{classEdge}{vector<pair<string,\ int>}}>>\ flowRemoveNode(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ \mbox{\hyperlink{classEdge}{node}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00052}00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ flowRemovePipeline(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&\mbox{\hyperlink{classEdge}{origin}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&dest,\ \mbox{\hyperlink{classEdge}{vector}}<\mbox{\hyperlink{classEdge}{pair<string,\ int>}}>\ \&\mbox{\hyperlink{classEdge}{resActual}},\mbox{\hyperlink{classEdge}{vector}}<\mbox{\hyperlink{classEdge}{pair<string,\ int>}}>\ \&\mbox{\hyperlink{classEdge}{resTemp}},\ \textcolor{keywordtype}{int}\ \&\mbox{\hyperlink{classEdge}{maxFlowActual}},\ \textcolor{keywordtype}{int}\ \&\mbox{\hyperlink{classEdge}{maxFlowTemp}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//aux}}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00061}\mbox{\hyperlink{classWaterSupply_a02d3465e3d5c9d1b6dbe1b5894e64361}{00061}}\ \ \ \ \ \mbox{\hyperlink{classEdge}{Vertex<string>}}*\ \mbox{\hyperlink{classWaterSupply_a02d3465e3d5c9d1b6dbe1b5894e64361}{createSuperSink}}();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00067}\mbox{\hyperlink{classWaterSupply_ab6c4f91a303521a854da64532953b971}{00067}}\ \ \ \ \ \mbox{\hyperlink{classEdge}{Vertex<string>}}*\ \mbox{\hyperlink{classWaterSupply_ab6c4f91a303521a854da64532953b971}{createSuperSource}}();}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00074}\mbox{\hyperlink{classWaterSupply_ab1b05573fb95293960c3d7e73c5a913a}{00074}}\ \ \ \ \ \mbox{\hyperlink{classEdge}{Vertex<string>}}*\ \mbox{\hyperlink{classWaterSupply_ab1b05573fb95293960c3d7e73c5a913a}{createExtractorSink}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ cityCode);}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00084}\mbox{\hyperlink{classWaterSupply_a82b233d2b722eb979518c2ceefa6d114}{00084}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWaterSupply_a82b233d2b722eb979518c2ceefa6d114}{testAndVisit}}(std::queue<\ \mbox{\hyperlink{classEdge}{Vertex<string>}}*>\ \&\mbox{\hyperlink{classEdge}{q}},\ \mbox{\hyperlink{classEdge}{Edge<string>}}\ *\mbox{\hyperlink{classEdge}{e}},\ \mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{v}},\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classEdge}{residual}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00092}\mbox{\hyperlink{classWaterSupply_af43de8121f559f1a1b4225b052e3753d}{00092}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classWaterSupply_af43de8121f559f1a1b4225b052e3753d}{findAugmentingPath}}(\mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{source}},\ \mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{sink}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00100}\mbox{\hyperlink{classWaterSupply_a9573dbb8bb929b907b44d90c6f42ab32}{00100}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWaterSupply_a9573dbb8bb929b907b44d90c6f42ab32}{augmentFlowAlongPath}}(\mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{source}},\ \mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{sink}},\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classEdge}{f}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00108}\mbox{\hyperlink{classWaterSupply_a37e543e0296998e71b97ae7bb9ebf32e}{00108}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classWaterSupply_a37e543e0296998e71b97ae7bb9ebf32e}{findMinResidualAlongPath}}(\mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{source}},\ \mbox{\hyperlink{classEdge}{Vertex<string>}}\ *\mbox{\hyperlink{classEdge}{sink}});}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00112}00112\ \};}
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{WaterSupply_8h_source_l00116}00116\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//WATERSUPPLYDA\_WATERSUPPLY\_H}}
+
+\end{DoxyCode}
