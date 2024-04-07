@@ -26,52 +26,52 @@ public:
      */
     City() = default;
     /**
-     * Set a city's name
+     * Sets a city's name
      * @param name
      */
     void setName(string name);
     /**
-     * Set a city's code
+     * Sets a city's code
      * @param code
      */
     void setCode(string code);
     /**
-     * Set a city's population
+     * Sets a city's population
      * @param population
      */
     void setPopulation(string population);
     /**
-     * Set a city's ID
+     * Sets a city's ID
      * @param id
      */
     void setId(int id);
     /**
-     * Set a city's demand
+     * Sets a city's demand
      * @param demand
      */
     void setDemand(double demand);
     /**
-     * Get city's name
+     * Gets a city's name
      * @return
      */
     string getName() const;
     /**
-     * Get a city's code
+     * Gets a city's code
      * @return
      */
     string getCode() const;
     /**
-     * Get a city's population
+     * Gets a city's population
      * @return
      */
     string getPopulation() const;
     /**
-     * Get a city's ID
+     * Gets a city's ID
      * @return
      */
     int getId() const;
     /**
-     * Get a city's demand
+     * Gets a city's demand
      * @return
      */
     double getDemand() const;

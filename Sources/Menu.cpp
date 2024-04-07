@@ -69,7 +69,7 @@ void Menu::printReliabilityFailureMenu(){
     cout    << "        Reliability and Failures        " << endl;
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout    << endl;
-    cout    << "What would you like to consult?" << endl;
+    cout    << "What would you like to do?" << endl;
     cout    << "1. Simulate water reservoir removal"<< endl;
     cout    << "2. Simulate pumping station removal" << endl;
     cout    << "3. Simulate pipe removal" << endl;
@@ -110,7 +110,7 @@ void Menu::printRemovePipelineMenu() {
     cout    << "     Water Supply Network Analysis      " << endl;
     cout    << "        Reliability and Failures        " << endl;
     cout    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    cout    << "Write the origin and the destination of the pipe you want to remove in the format: code1,code2"
+    cout    << "Input the origin and the destination of the pipe you want to remove in the format: code1,code2"
                " for example: R_1,PS_1"   << endl;
     cout    << endl;
 }
