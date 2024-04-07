@@ -3,6 +3,8 @@
 
 #include "iostream"
 #include "WaterSupply.h"
+#include <iomanip>
+#include <cmath>
 using namespace std;
 
 
@@ -40,6 +42,7 @@ public:
 
     void printMaxFlowAll();
     void printMaxFlowSingle(const string& cityCode);
+    void printBalanceFlow();
 
 };
 
